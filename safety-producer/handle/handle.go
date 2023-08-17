@@ -2,18 +2,17 @@ package handle
 
 import (
 	"context"
+	"github.com/goodrain/rainbond-safety/cmd/safety-producer/option"
 	"github.com/goodrain/rainbond-safety/safety-producer/handle/dispatch_tasks"
 	"github.com/nats-io/nats.go"
-	"k8s.io/client-go/rest"
 )
 
-func InitHandle(ctx context.Context, config *rest.Config, nc *nats.Conn) {
-
-	defaultManagerClientGo = dispatch_tasks.CreateManagerDispatchTasks(ctx, nc)
+func InitHandle(ctx context.Context, nc *nats.Conn, config option.Config) {
+	defaultManagerDispatchTasks = dispatch_tasks.CreateManagerDispatchTasks(ctx, nc, config)
 }
 
-var defaultManagerClientGo *dispatch_tasks.ManagerDispatchTasks
+var defaultManagerDispatchTasks *dispatch_tasks.ManagerDispatchTasks
 
-func GetManagerClientGo() *dispatch_tasks.ManagerDispatchTasks {
-	return defaultManagerClientGo
+func GetManagerDispatchTasks() *dispatch_tasks.ManagerDispatchTasks {
+	return defaultManagerDispatchTasks
 }

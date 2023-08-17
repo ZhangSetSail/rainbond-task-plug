@@ -74,7 +74,7 @@ func (mw *managerWatch) OnAdd(obj interface{}, isInInitialList bool) {
 		app.SetPod(pod)
 		if pod.Labels["job"] == "codebuild" && strings.HasSuffix(pod.Name, "dockerfile") {
 			logrus.Infof("podName%v", pod.GetName())
-			handle.GetManagerClientGo().CreateTask()
+			handle.GetManagerDispatchTasks().CreateSourceCodeInspectionTask()
 		}
 		return
 	}
@@ -112,7 +112,6 @@ func (mw *managerWatch) OnDelete(obj interface{}) {
 	}
 	if pod, ok := obj.(*v1.Pod); ok {
 		app := mw.getApp(pod.GetNamespace())
-		logrus.Infof("delete pod %v", pod.GetName())
 		app.DeletePod(pod)
 		return
 	}

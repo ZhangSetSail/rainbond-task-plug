@@ -6,18 +6,20 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (m *ManagerDispatchTasks) CreateTask() {
+func (m *ManagerDispatchTasks) CreateSourceCodeInspectionTask() error {
 	cdm := model.CodeDetectionModel{
 		ProjectName:   "zqh-test",
-		SourceAddress: "abc",
+		RepositoryURL: "https://github.com/SonarSource/sonar-scanner-cli-docker.git",
 	}
 	cdmJsonByte, err := json.Marshal(cdm)
 	if err != nil {
 		logrus.Errorf("有报错%v", err)
-		return
+		return err
 	}
-	err = m.nc.Publish("foo", cdmJsonByte)
+	err = m.nc.Publish(m.config.Subscribe, cdmJsonByte)
 	if err != nil {
 		logrus.Errorf("有报错%v", err)
+		return err
 	}
+	return nil
 }

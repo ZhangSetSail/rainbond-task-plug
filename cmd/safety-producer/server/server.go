@@ -2,23 +2,21 @@ package server
 
 import (
 	"context"
+	"github.com/goodrain/rainbond-safety/cmd/safety-producer/option"
 	"github.com/goodrain/rainbond-safety/safety-producer/api_router"
 	"github.com/goodrain/rainbond-safety/safety-producer/handle"
 	init_watch "github.com/goodrain/rainbond-safety/safety-producer/handle/k8s-watch/init-watch"
 	nats "github.com/nats-io/nats.go"
-	"github.com/sirupsen/logrus"
 )
 
-func Run() error {
+func Run(s *option.ProducerServer) error {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	//设置日志输出格式
-	logrus.SetFormatter(&logrus.JSONFormatter{})
-	clientSet, config, err := InitK8SClient()
+	clientSet, _, err := InitK8SClient()
 	if err != nil {
 		return err
 	}
-	nc, err := nats.Connect("47.93.219.143:10007")
+	nc, err := nats.Connect(s.NatsAPI)
 	if err != nil {
 		return err
 	}
@@ -26,6 +24,6 @@ func Run() error {
 	mw := init_watch.CreateResourceWatch(clientSet)
 	mw.Start()
 
-	handle.InitHandle(ctx, config, nc)
+	handle.InitHandle(ctx, nc, s.Config)
 	return api_router.InitRouter()
 }
