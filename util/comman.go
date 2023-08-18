@@ -21,7 +21,7 @@ func ExecCommand(command string, args []string, envs []string) error {
 	cmd := exec.Command(command, args...)
 	stderr, _ := cmd.StderrPipe()
 	stdout, _ := cmd.StdoutPipe()
-	cmd.Env = append(os.Environ(), envs...)
+	cmd.Env = append(envs, os.Environ()...)
 	err := cmd.Start()
 	if err != nil {
 		return err

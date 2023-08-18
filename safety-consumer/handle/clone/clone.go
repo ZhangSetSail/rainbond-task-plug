@@ -78,10 +78,6 @@ Loop:
 		rs, err = git.PlainCloneContext(ctx, sourceDir, false, opts)
 	}
 	if err != nil {
-		if reerr := os.RemoveAll(sourceDir); reerr != nil {
-			errMsg := fmt.Sprintf("拉取代码发生错误删除代码目录失败。")
-			logrus.Error(errMsg, map[string]string{"step": "clone-code", "status": "failure"})
-		}
 		if err == transport.ErrAuthenticationRequired {
 			errMsg := fmt.Sprintf("拉取代码发生错误，代码源需要授权访问。")
 			logrus.Error(errMsg, map[string]string{"step": "clone-code", "status": "failure"})
