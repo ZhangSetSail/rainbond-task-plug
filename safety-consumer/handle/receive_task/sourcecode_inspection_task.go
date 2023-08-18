@@ -8,7 +8,6 @@ import (
 	"github.com/goodrain/rainbond-safety/util"
 	"github.com/nats-io/nats.go"
 	"github.com/sirupsen/logrus"
-	"path"
 )
 
 func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
@@ -20,20 +19,21 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			logrus.Errorf("json unmarshal failure: %v", err)
 			return
 		}
-		codePath := path.Join(t.config.CodeStoragePath, cdm.ProjectName)
-		_, _, err = clone.GitClone(cdm, codePath, 10, t.ctx)
+
+		_, _, err = clone.GitClone(cdm, t.config.CodeStoragePath, 10, t.ctx)
 		if err != nil {
 			logrus.Errorf("git clone failure: %v", err)
 			return
 		}
-		command := fmt.Sprintf(
-			"SRC_PATH=%v "+
-				"SONAR_TOKEN=%v "+
-				"SONAR_SCANNER_OPTS=-Dsonar.projectKey=%v "+
-				"SONAR_HOST_URL=%v "+
-				"/usr/bin/entrypoint.sh", codePath, t.config.SonarToken, cdm.ProjectName, t.config.SonarHostUrl)
+		
+		path := fmt.Sprintf("SRC_PATH=%v", "/usr/src")
+		sonarToken := fmt.Sprintf("SONAR_TOKEN=%v", t.config.SonarToken)
+		sonarScannerOpts := fmt.Sprintf("SONAR_SCANNER_OPTS=-Dsonar.projectKey=%v", cdm.ProjectName)
+		SonarHostURL := fmt.Sprintf("SONAR_HOST_URL=%v", t.config.SonarHostUrl)
+		command := "/usr/bin/entrypoint.sh"
 		args := []string{"sonar-scanner"}
-		err = util.ExecCommand(command, args)
+		envs := []string{sonarToken, sonarScannerOpts, SonarHostURL, path}
+		err = util.ExecCommand(command, args, envs)
 		if err != nil {
 			logrus.Errorf("code inspection execution failure: %v", err)
 			return

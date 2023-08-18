@@ -8,17 +8,17 @@ import (
 
 func (m *ManagerDispatchTasks) CreateSourceCodeInspectionTask() error {
 	cdm := model.CodeDetectionModel{
-		ProjectName:   "zqh-test",
-		RepositoryURL: "https://github.com/SonarSource/sonar-scanner-cli-docker.git",
+		ProjectName:   "new-test",
+		RepositoryURL: "https://github.com/goodrain/rainbond.git",
 	}
 	cdmJsonByte, err := json.Marshal(cdm)
 	if err != nil {
-		logrus.Errorf("有报错%v", err)
+		logrus.Errorf("json marshal code detection model failure: %v", err)
 		return err
 	}
 	err = m.nc.Publish(m.config.Subscribe, cdmJsonByte)
 	if err != nil {
-		logrus.Errorf("有报错%v", err)
+		logrus.Errorf("publish code detection model failure: %v", err)
 		return err
 	}
 	return nil
