@@ -1,5 +1,6 @@
 #!/bin/bash
 build::image() {
+  export CGO_ENABLED=0
   go build -o ./cmd/$1/dockerfile/rainbond-$1 ./cmd/$1/
 }
 

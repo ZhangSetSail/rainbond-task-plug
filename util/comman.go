@@ -1,6 +1,9 @@
 package util
 
-import "os"
+import (
+	"os"
+	"os/exec"
+)
 
 func FileExists(filename string) (bool, error) {
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
@@ -9,4 +12,12 @@ func FileExists(filename string) (bool, error) {
 		return false, err
 	}
 	return true, nil
+}
+
+func ExecCommand(command string, args []string) error {
+	cmd := exec.Command(command, args...)
+	err := cmd.Run()
+	if err != nil {
+		return err
+	}
 }
