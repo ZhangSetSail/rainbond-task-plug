@@ -6,10 +6,10 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (m *ManagerDispatchTasks) CreateSourceCodeInspectionTask() error {
+func (m *ManagerDispatchTasks) CreateSourceCodeInspectionTask(projectName, url string) error {
 	cdm := model.CodeDetectionModel{
-		ProjectName:   "new-test",
-		RepositoryURL: "https://github.com/goodrain/rainbond.git",
+		ProjectName:   projectName,
+		RepositoryURL: url,
 	}
 	cdmJsonByte, err := json.Marshal(cdm)
 	if err != nil {

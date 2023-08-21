@@ -74,7 +74,14 @@ func (mw *managerWatch) OnAdd(obj interface{}, isInInitialList bool) {
 		app.SetPod(pod)
 		if pod.Labels["job"] == "codebuild" && strings.HasSuffix(pod.Name, "dockerfile") {
 			logrus.Infof("podName%v", pod.GetName())
-			handle.GetManagerDispatchTasks().CreateSourceCodeInspectionTask()
+			if pod.Annotations["code_inspection"] == "open" && pod.Annotations["repository_url"] != "" {
+				projectName := pod.Labels["service"]
+				url := pod.Annotations["repository_url"]
+				err := handle.GetManagerDispatchTasks().CreateSourceCodeInspectionTask(projectName, url)
+				if err != nil {
+					logrus.Errorf("create source code inspection task failure: %v", err)
+				}
+			}
 		}
 		return
 	}
