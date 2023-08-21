@@ -19,13 +19,12 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			logrus.Errorf("json unmarshal failure: %v", err)
 			return
 		}
-
+		//清理文件
 		_, _, err = clone.GitClone(cdm, t.config.CodeStoragePath, 10, t.ctx)
 		if err != nil {
 			logrus.Errorf("git clone failure: %v", err)
 			return
 		}
-		
 		path := fmt.Sprintf("SRC_PATH=%v", "/usr/src")
 		sonarToken := fmt.Sprintf("SONAR_TOKEN=%v", t.config.SonarToken)
 		sonarScannerOpts := fmt.Sprintf("SONAR_SCANNER_OPTS=-Dsonar.projectKey=%v", cdm.ProjectName)
