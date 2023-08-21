@@ -8,6 +8,7 @@ import (
 	"github.com/goodrain/rainbond-safety/util"
 	"github.com/nats-io/nats.go"
 	"github.com/sirupsen/logrus"
+	"os"
 )
 
 func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
@@ -37,7 +38,7 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			logrus.Errorf("code inspection execution failure: %v", err)
 			return
 		}
-
+		os.RemoveAll("/usr/src")
 	})
 	return err
 }
