@@ -8,7 +8,9 @@ import (
 	"github.com/goodrain/rainbond-safety/util"
 	"github.com/nats-io/nats.go"
 	"github.com/sirupsen/logrus"
+	"io/ioutil"
 	"os"
+	"path"
 )
 
 func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
@@ -26,19 +28,22 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			logrus.Errorf("git clone failure: %v", err)
 			return
 		}
-		path := fmt.Sprintf("SRC_PATH=%v", "/usr/src")
+		srcPath := fmt.Sprintf("SRC_PATH=%v", "/usr/src")
 		sonarToken := fmt.Sprintf("SONAR_TOKEN=%v", t.config.SonarToken)
 		sonarScannerOpts := fmt.Sprintf("SONAR_SCANNER_OPTS=-Dsonar.projectKey=%v", cdm.ProjectName)
 		SonarHostURL := fmt.Sprintf("SONAR_HOST_URL=%v", t.config.SonarHostUrl)
 		command := "/usr/bin/entrypoint.sh"
 		args := []string{"sonar-scanner"}
-		envs := []string{sonarToken, sonarScannerOpts, SonarHostURL, path}
+		envs := []string{sonarToken, sonarScannerOpts, SonarHostURL, srcPath}
 		err = util.ExecCommand(command, args, envs)
 		if err != nil {
 			logrus.Errorf("code inspection execution failure: %v", err)
 			return
 		}
-		os.RemoveAll("/usr/src")
+		dir, _ := ioutil.ReadDir("/usr/src")
+		for _, d := range dir {
+			os.RemoveAll(path.Join([]string{"/usr/src", d.Name()}...))
+		}
 	})
 	return err
 }
