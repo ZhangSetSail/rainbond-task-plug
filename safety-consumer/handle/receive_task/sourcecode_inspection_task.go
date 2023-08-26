@@ -16,6 +16,7 @@ import (
 func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 	logrus.Infof("begion receive source code inspection task")
 	_, err := t.nc.QueueSubscribe(t.config.Subscribe, t.config.SubscribeQueue, func(m *nats.Msg) {
+		defer clearDir()
 		var cdm model.CodeDetectionModel
 		err := json.Unmarshal(m.Data, &cdm)
 		if err != nil {
@@ -40,10 +41,18 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			logrus.Errorf("code inspection execution failure: %v", err)
 			return
 		}
-		dir, _ := ioutil.ReadDir("/usr/src")
-		for _, d := range dir {
-			os.RemoveAll(path.Join([]string{"/usr/src", d.Name()}...))
-		}
 	})
 	return err
+}
+
+func clearDir() {
+	logrus.Infof("begin remove /usr/src/*")
+	dir, _ := ioutil.ReadDir("/usr/src")
+	for _, d := range dir {
+		p := path.Join([]string{"/usr/src", d.Name()}...)
+		err := os.RemoveAll(p)
+		if err != nil {
+			logrus.Errorf("remove %v failure: %v", p, err)
+		}
+	}
 }

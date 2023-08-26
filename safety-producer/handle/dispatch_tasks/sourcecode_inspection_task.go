@@ -7,6 +7,7 @@ import (
 )
 
 func (m *ManagerDispatchTasks) CreateSourceCodeInspectionTask(projectName, url string) error {
+	logrus.Infof(projectName)
 	cdm := model.CodeDetectionModel{
 		ProjectName:   projectName,
 		RepositoryURL: url,
