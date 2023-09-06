@@ -4,17 +4,14 @@ import (
 	"github.com/sirupsen/logrus"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
-	"k8s.io/client-go/tools/clientcmd"
-	"os"
-	"path/filepath"
+	restclient "k8s.io/client-go/rest"
 )
 
 func InitK8SClient() (*kubernetes.Clientset, *rest.Config, error) {
 	logrus.Infof("begin init k8s client")
-	config, err := clientcmd.BuildConfigFromFlags("", filepath.Join(os.Getenv("HOME"), ".kube", "config"))
+	config, err := restclient.InClusterConfig()
 	if err != nil {
-		logrus.Errorf("get client config failure: %v", err)
-
+		return nil, nil, err
 	}
 	// 创建 client
 	clientSet, err := kubernetes.NewForConfig(config)
