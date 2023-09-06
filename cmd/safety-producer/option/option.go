@@ -27,7 +27,7 @@ func NewProducerServer() *ProducerServer {
 // AddFlags config
 func (a *ProducerServer) AddFlags(fs *pflag.FlagSet) {
 	fs.StringVar(&a.LogLevel, "log-level", "info", "log level")
-	fs.StringVar(&a.NatsAPI, "nats-api", "8.219.156.44:10001", "nats host:127.0.0.1:4222")
+	fs.StringVar(&a.NatsAPI, "nats-api", "", "nats host:127.0.0.1:4222")
 	fs.StringVar(&a.Subscribe, "subscribe", "rainbond", "subscription number name")
 }
 

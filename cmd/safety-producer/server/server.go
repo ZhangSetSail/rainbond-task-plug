@@ -8,6 +8,7 @@ import (
 	init_watch "github.com/goodrain/rainbond-safety/safety-producer/handle/k8s-watch/init-watch"
 	"github.com/goodrain/rainbond-safety/util"
 	nats "github.com/nats-io/nats.go"
+	"os"
 )
 
 func Run(s *option.ProducerServer) error {
@@ -16,6 +17,9 @@ func Run(s *option.ProducerServer) error {
 	clientSet, _, err := util.InitK8SClient()
 	if err != nil {
 		return err
+	}
+	if s.NatsAPI == "" {
+		s.NatsAPI = os.Getenv("NATS_HOST") + ":" + os.Getenv("NATS_PORT")
 	}
 	nc, err := nats.Connect(s.NatsAPI)
 	if err != nil {
