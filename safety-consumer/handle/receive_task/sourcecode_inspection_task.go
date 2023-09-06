@@ -29,8 +29,14 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			return
 		}
 		srcPath := fmt.Sprintf("SRC_PATH=%v", "/usr/src")
+		if t.config.SonarToken == "" {
+			t.config.SonarToken = os.Getenv("SONAR_TOKEN")
+		}
 		sonarToken := fmt.Sprintf("SONAR_TOKEN=%v", t.config.SonarToken)
 		sonarScannerOpts := fmt.Sprintf("SONAR_SCANNER_OPTS=-Dsonar.projectKey=%v -Dsonar.exclusions=**/*.java", cdm.ProjectName)
+		if t.config.SonarHostUrl == "" {
+			t.config.SonarHostUrl = os.Getenv("SONAR_HOST") + ":" + os.Getenv("SONAR_PORT")
+		}
 		SonarHostURL := fmt.Sprintf("SONAR_HOST_URL=%v", t.config.SonarHostUrl)
 		command := "/usr/bin/entrypoint.sh"
 		args := []string{"sonar-scanner"}
