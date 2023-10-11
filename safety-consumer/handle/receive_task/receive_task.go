@@ -2,7 +2,7 @@ package receive_task
 
 import (
 	"context"
-	"github.com/goodrain/rainbond-safety/cmd/safety-consumer/option"
+	"github.com/goodrain/rainbond-task-plug/cmd/safety-consumer/option"
 	"github.com/nats-io/nats.go"
 )
 

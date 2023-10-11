@@ -2,7 +2,7 @@ package dispatch_tasks
 
 import (
 	"context"
-	"github.com/goodrain/rainbond-safety/cmd/safety-producer/option"
+	"github.com/goodrain/rainbond-task-plug/cmd/task-plug-producer/option"
 	"github.com/nats-io/nats.go"
 )
 

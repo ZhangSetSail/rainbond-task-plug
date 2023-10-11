@@ -2,8 +2,8 @@ package handle
 
 import (
 	"context"
-	"github.com/goodrain/rainbond-safety/cmd/safety-producer/option"
-	"github.com/goodrain/rainbond-safety/safety-producer/handle/dispatch_tasks"
+	"github.com/goodrain/rainbond-task-plug/cmd/task-plug-producer/option"
+	"github.com/goodrain/rainbond-task-plug/safety-producer/handle/dispatch_tasks"
 	"github.com/nats-io/nats.go"
 )
 

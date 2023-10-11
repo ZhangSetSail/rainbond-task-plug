@@ -2,8 +2,8 @@ package handle
 
 import (
 	"context"
-	"github.com/goodrain/rainbond-safety/cmd/safety-consumer/option"
-	"github.com/goodrain/rainbond-safety/safety-consumer/handle/receive_task"
+	"github.com/goodrain/rainbond-task-plug/cmd/safety-consumer/option"
+	"github.com/goodrain/rainbond-task-plug/safety-consumer/handle/receive_task"
 	"github.com/nats-io/nats.go"
 )
 

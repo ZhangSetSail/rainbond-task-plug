@@ -2,7 +2,7 @@ package dispatch_tasks
 
 import (
 	"encoding/json"
-	"github.com/goodrain/rainbond-safety/model"
+	"github.com/goodrain/rainbond-task-plug/model"
 	"github.com/sirupsen/logrus"
 )
 

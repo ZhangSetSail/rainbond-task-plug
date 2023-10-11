@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/goodrain/rainbond-safety/cmd/safety-producer/option"
-	"github.com/goodrain/rainbond-safety/cmd/safety-producer/server"
+	"github.com/goodrain/rainbond-task-plug/cmd/task-plug-producer/option"
+	"github.com/goodrain/rainbond-task-plug/cmd/task-plug-producer/server"
 	"github.com/spf13/pflag"
 	"os"
 )

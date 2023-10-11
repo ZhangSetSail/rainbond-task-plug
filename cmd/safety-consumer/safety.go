@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/goodrain/rainbond-safety/cmd/safety-consumer/option"
-	"github.com/goodrain/rainbond-safety/cmd/safety-consumer/server"
+	"github.com/goodrain/rainbond-task-plug/cmd/safety-consumer/option"
+	"github.com/goodrain/rainbond-task-plug/cmd/safety-consumer/server"
 	"github.com/spf13/pflag"
 	"os"
 )

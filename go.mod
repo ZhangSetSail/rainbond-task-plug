@@ -1,4 +1,4 @@
-module github.com/goodrain/rainbond-safety
+module github.com/goodrain/rainbond-task-plug
 
 go 1.20
 

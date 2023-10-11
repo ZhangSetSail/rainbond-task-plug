@@ -2,11 +2,11 @@ package server
 
 import (
 	"context"
-	"github.com/goodrain/rainbond-safety/cmd/safety-producer/option"
-	"github.com/goodrain/rainbond-safety/safety-producer/api_router"
-	"github.com/goodrain/rainbond-safety/safety-producer/handle"
-	init_watch "github.com/goodrain/rainbond-safety/safety-producer/handle/k8s-watch/init-watch"
-	"github.com/goodrain/rainbond-safety/util"
+	"github.com/goodrain/rainbond-task-plug/cmd/task-plug-producer/option"
+	"github.com/goodrain/rainbond-task-plug/safety-producer/api_router"
+	"github.com/goodrain/rainbond-task-plug/safety-producer/handle"
+	init_watch "github.com/goodrain/rainbond-task-plug/safety-producer/handle/k8s-watch/init-watch"
+	"github.com/goodrain/rainbond-task-plug/util"
 	nats "github.com/nats-io/nats.go"
 	"os"
 )

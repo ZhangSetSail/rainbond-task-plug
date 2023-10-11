@@ -2,9 +2,9 @@ package server
 
 import (
 	"context"
-	"github.com/goodrain/rainbond-safety/cmd/safety-consumer/option"
-	"github.com/goodrain/rainbond-safety/safety-consumer/api_router"
-	"github.com/goodrain/rainbond-safety/safety-consumer/handle"
+	"github.com/goodrain/rainbond-task-plug/cmd/safety-consumer/option"
+	"github.com/goodrain/rainbond-task-plug/safety-consumer/api_router"
+	"github.com/goodrain/rainbond-task-plug/safety-consumer/handle"
 	nats "github.com/nats-io/nats.go"
 	"os"
 )

@@ -3,9 +3,9 @@ package receive_task
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/goodrain/rainbond-safety/model"
-	"github.com/goodrain/rainbond-safety/safety-consumer/handle/clone"
-	"github.com/goodrain/rainbond-safety/util"
+	"github.com/goodrain/rainbond-task-plug/model"
+	"github.com/goodrain/rainbond-task-plug/safety-consumer/handle/clone"
+	"github.com/goodrain/rainbond-task-plug/util"
 	"github.com/nats-io/nats.go"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"

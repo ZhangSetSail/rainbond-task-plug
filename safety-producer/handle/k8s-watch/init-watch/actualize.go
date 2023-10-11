@@ -1,7 +1,7 @@
 package init_watch
 
 import (
-	"github.com/goodrain/rainbond-safety/safety-producer/handle"
+	"github.com/goodrain/rainbond-task-plug/safety-producer/handle"
 	"github.com/sirupsen/logrus"
 	appsv1 "k8s.io/api/apps/v1"
 	barchv1 "k8s.io/api/batch/v1"
