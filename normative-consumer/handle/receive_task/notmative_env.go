@@ -3,7 +3,7 @@ package receive_task
 import (
 	"github.com/goodrain/rainbond-task-plug/db/mysql"
 	"github.com/goodrain/rainbond-task-plug/model"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type ENVNormative struct {

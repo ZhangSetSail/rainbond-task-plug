@@ -108,15 +108,15 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			}
 			p += 1
 		}
-		var componentReportList []db_model.ComponentReport
+		var componentReportList []*db_model.ComponentReport
 		t.db.Debug().Where("component_id = ?", cdm.ProjectName).Delete(&db_model.ComponentReport{})
 		for _, code := range codeIssuesList {
-			url := fmt.Sprintf("/project/issues?resolved=false&open=%v&id=%v", sonarAddr, code.Key, code.Project)
+			url := fmt.Sprintf("/project/issues?resolved=false&open=%v&id=%v", code.Key, code.Project)
 			level := 1
 			if code.Severity == "CRITICAL" || code.Severity == "MAJOR" {
 				level = 0
 			}
-			componentReportList = append(componentReportList, db_model.ComponentReport{
+			componentReportList = append(componentReportList, &db_model.ComponentReport{
 				PrimaryLink: url,
 				Level:       level,
 				Message:     code.Message,

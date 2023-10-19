@@ -3,8 +3,8 @@ package receive_task
 import (
 	"context"
 	"github.com/goodrain/rainbond-task-plug/cmd/safety-consumer/config"
-	"github.com/jinzhu/gorm"
 	"github.com/nats-io/nats.go"
+	"gorm.io/gorm"
 )
 
 type ManagerReceiveTask struct {

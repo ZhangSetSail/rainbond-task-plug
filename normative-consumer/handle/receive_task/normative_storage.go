@@ -5,8 +5,8 @@ import (
 	"github.com/goodrain/rainbond-task-plug/db/mysql"
 	"github.com/goodrain/rainbond-task-plug/db/rainbond_model"
 	"github.com/goodrain/rainbond-task-plug/model"
-	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
+	"gorm.io/gorm"
 	"strings"
 	"time"
 )

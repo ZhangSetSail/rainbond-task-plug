@@ -11,9 +11,13 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 	github.com/thedevsaddam/gojsonq/v2 v2.5.2
 	gopkg.in/src-d/go-git.v4 v4.13.1
+	gorm.io/driver/mysql v1.5.2
+	gorm.io/gorm v1.25.5
 	k8s.io/api v0.28.0
 	k8s.io/client-go v0.28.0
 )
+
+require github.com/jinzhu/now v1.1.5 // indirect
 
 require (
 	github.com/ajg/form v1.5.1 // indirect

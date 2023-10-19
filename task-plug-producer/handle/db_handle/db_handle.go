@@ -2,7 +2,7 @@ package db_handle
 
 import (
 	"context"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type DBAction struct {
