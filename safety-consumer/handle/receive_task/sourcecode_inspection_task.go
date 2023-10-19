@@ -49,7 +49,7 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			logrus.Errorf("code inspection execution failure: %v", err)
 			return
 		}
-
+		logrus.Infof("sleep 10 second")
 		time.Sleep(10 * time.Second)
 		var codeIssuesList []model.CodeIssues
 		p := 1
