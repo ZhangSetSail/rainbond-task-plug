@@ -50,7 +50,7 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			return
 		}
 		logrus.Infof("sleep 10 second")
-		time.Sleep(10 * time.Second)
+		time.Sleep(20 * time.Second)
 		var codeIssuesList []model.CodeIssues
 		p := 1
 		for {
@@ -59,7 +59,7 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			url = url + fmt.Sprintf("&p=%v", p)
 			url = url + "&ps=500"
 			url = url + "&s=FILE_LINE&resolved=false&facets=severities%2Ctypes&additionalFields=_all&timeZone=Asia%2FShanghai"
-
+			logrus.Infof("看看url%v", url)
 			var client = &http.Client{
 				Timeout: time.Second * 5,
 			}
@@ -77,8 +77,14 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			}
 
 			body, _ := ioutil.ReadAll(rsps.Body)
+			logrus.Infof(string(body))
+			if string(body) == "" {
+				return
+			}
+			logrus.Infof("盲猜这里报错了")
 			issuesInterface := gojsonq.New().FromString(string(body)).Find("issues")
 			total := gojsonq.New().FromString(string(body)).Find("total")
+			logrus.Infof("total%v", total)
 			var ciList []model.CodeIssues
 			issuesJson, err := json.Marshal(issuesInterface)
 			if err != nil {
