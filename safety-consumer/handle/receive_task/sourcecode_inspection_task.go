@@ -78,15 +78,6 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			}
 
 			body, _ := ioutil.ReadAll(rsps.Body)
-			logrus.Infof(string(body))
-			if string(body) == "" {
-				if x > 5 {
-					return
-				}
-				x++
-				continue
-			}
-			logrus.Infof("盲猜这里报错了")
 			issuesInterface := gojsonq.New().FromString(string(body)).Find("issues")
 			total := gojsonq.New().FromString(string(body)).Find("total")
 			logrus.Infof("total%v", total)
@@ -95,6 +86,13 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			if err != nil {
 				logrus.Errorf("json marshal issues interface failure: %v", err)
 				return
+			}
+			if string(issuesJson) == "[]" {
+				if x > 5 {
+					return
+				}
+				x++
+				continue
 			}
 			err = json.Unmarshal(issuesJson, &ciList)
 			if err != nil {
