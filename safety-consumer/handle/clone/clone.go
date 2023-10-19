@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/goodrain/rainbond-task-plug/model"
-	"github.com/goodrain/rainbond-task-plug/util"
+	"github.com/goodrain/rainbond-task-plug/pkg"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/src-d/go-git.v4"
 	"gopkg.in/src-d/go-git.v4/plumbing"
@@ -26,7 +26,7 @@ import (
 	"time"
 )
 
-func GitClone(csi model.CodeDetectionModel, sourceDir string, timeout int, ctx context.Context) (*git.Repository, string, error) {
+func GitClone(csi model.CodeInspectionModel, sourceDir string, timeout int, ctx context.Context) (*git.Repository, string, error) {
 	logrus.Infof("begin clone %v", csi.RepositoryURL)
 	if !strings.HasSuffix(csi.RepositoryURL, ".git") {
 		csi.RepositoryURL = csi.RepositoryURL + ".git"
@@ -133,10 +133,10 @@ func GetPrivateFile(tenantID string) string {
 	if home == "" {
 		home = "/root"
 	}
-	if ok, _ := util.FileExists(path.Join(home, "/.ssh/"+tenantID)); ok {
+	if ok, _ := pkg.FileExists(path.Join(home, "/.ssh/"+tenantID)); ok {
 		return path.Join(home, "/.ssh/"+tenantID)
 	}
-	if ok, _ := util.FileExists(path.Join(home, "/.ssh/builder_rsa")); ok {
+	if ok, _ := pkg.FileExists(path.Join(home, "/.ssh/builder_rsa")); ok {
 		return path.Join(home, "/.ssh/builder_rsa")
 	}
 	return path.Join(home, "/.ssh/id_rsa")

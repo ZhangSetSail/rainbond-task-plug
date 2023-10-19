@@ -1,34 +1,69 @@
 package server
 
 import (
-	"context"
-	"github.com/goodrain/rainbond-task-plug/cmd/task-plug-producer/option"
-	"github.com/goodrain/rainbond-task-plug/safety-producer/api_router"
-	"github.com/goodrain/rainbond-task-plug/safety-producer/handle"
-	init_watch "github.com/goodrain/rainbond-task-plug/safety-producer/handle/k8s-watch/init-watch"
-	"github.com/goodrain/rainbond-task-plug/util"
-	nats "github.com/nats-io/nats.go"
-	"os"
+	"github.com/goodrain/rainbond-task-plug/cmd/task-plug-producer/config"
+	"github.com/goodrain/rainbond-task-plug/db/mysql"
+	"github.com/goodrain/rainbond-task-plug/pkg"
+	"github.com/goodrain/rainbond-task-plug/task-plug-producer/controller"
+	"github.com/goodrain/rainbond-task-plug/task-plug-producer/handle"
+	init_watch "github.com/goodrain/rainbond-task-plug/task-plug-producer/handle/k8s-watch/init-watch"
+	"github.com/goodrain/rainbond-task-plug/task-plug-producer/router"
+	"github.com/sirupsen/logrus"
 )
 
-func Run(s *option.ProducerServer) error {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	clientSet, _, err := util.InitK8SClient()
+func Run() error {
+	//初始化所有cli
+	err := initCli()
 	if err != nil {
+		logrus.Errorf("init cli failure: %v", err)
 		return err
 	}
-	if s.NatsAPI == "" {
-		s.NatsAPI = os.Getenv("NATS_HOST") + ":" + os.Getenv("NATS_PORT")
-	}
-	nc, err := nats.Connect(s.NatsAPI)
-	if err != nil {
-		return err
-	}
+	//初始化后台服务
+	initBackgroundProcess()
+	logrus.Infof("task plug producer server exit")
+	return nil
+}
 
-	mw := init_watch.CreateResourceWatch(clientSet)
+func initCli() error {
+	p := config.GetProducerServer()
+	err := pkg.InitK8SClient()
+	if err != nil {
+		return err
+	}
+	pkg.InitCTX(3)
+	// 初始化消息队列
+	natsAddr := p.NatsHost + ":" + p.NatsPort
+	err = pkg.InitNatsCli(natsAddr)
+	if err != nil {
+		return err
+	}
+	//初始化router路由函数
+	err = controller.CreateRouterManager()
+	if err != nil {
+		return err
+	}
+	//初始化数据库
+	err = mysql.InitDB(p.DB)
+	if err != nil {
+		return err
+	}
+	//初始化router
+	router.InitRouterCli()
+	//初始化处理程序,必须放在最后
+	handle.InitHandle()
+	return nil
+}
+
+func initBackgroundProcess() error {
+	p := config.GetProducerServer()
+	//k8s watch 监听
+	mw := init_watch.CreateResourceWatch()
 	mw.Start()
-
-	handle.InitHandle(ctx, nc, s.Config)
-	return api_router.InitRouter()
+	//启动 server
+	r := router.GetRouter()
+	exitCh := make(chan int)
+	s := pkg.InitHttpServer(r, p.Port)
+	go pkg.GracefulShutdown(s, exitCh)
+	<-exitCh
+	return nil
 }

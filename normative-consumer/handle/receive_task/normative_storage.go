@@ -1,0 +1,45 @@
+package receive_task
+
+import (
+	db_model "github.com/goodrain/rainbond-task-plug/db/model"
+	"github.com/goodrain/rainbond-task-plug/db/mysql"
+	"github.com/goodrain/rainbond-task-plug/db/rainbond_model"
+	"github.com/goodrain/rainbond-task-plug/model"
+	"github.com/jinzhu/gorm"
+	"github.com/sirupsen/logrus"
+	"strings"
+	"time"
+)
+
+type StorageNormative struct {
+	DB *gorm.DB
+}
+
+func (s StorageNormative) Check(ni model.NormativeInspectionModel) {
+	if !strings.HasPrefix(ni.ExtendMethod, "state_") {
+		return
+	}
+	var volumes []rainbond_model.TenantServiceVolume
+	s.DB.Where("volume_type <> ?", "config-file").Find(&volumes, "service_id=?", ni.ComponentID)
+	if len(volumes) == 0 && strings.HasPrefix(ni.ExtendMethod, "state_") {
+		records := db_model.ComponentReport{
+			CreateTime:  time.Now(),
+			Level:       1,
+			Message:     "有状态组件没有挂载存储",
+			ComponentID: ni.ComponentID,
+			PrimaryLink: "",
+			Type:        "normative",
+		}
+		err := s.DB.Debug().Create(&records).Error
+		if err != nil {
+			logrus.Errorf("create service normative record failure: %v", err)
+		}
+	}
+}
+
+func NewStorageNormative() *StorageNormative {
+	db := mysql.GetDB()
+	return &StorageNormative{
+		DB: db,
+	}
+}
