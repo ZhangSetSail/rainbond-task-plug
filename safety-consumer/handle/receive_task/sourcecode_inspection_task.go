@@ -50,10 +50,11 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			return
 		}
 		logrus.Infof("sleep 10 second")
-		time.Sleep(20 * time.Second)
 		var codeIssuesList []model.CodeIssues
 		p := 1
+		x := 1
 		for {
+			time.Sleep(20 * time.Second)
 			url := fmt.Sprintf("http://%v/api/issues/search?", sonarAddr)
 			url = url + fmt.Sprintf("componentKeys=%v", cdm.ProjectName)
 			url = url + fmt.Sprintf("&p=%v", p)
@@ -79,7 +80,11 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			body, _ := ioutil.ReadAll(rsps.Body)
 			logrus.Infof(string(body))
 			if string(body) == "" {
-				return
+				if x > 5 {
+					return
+				}
+				x++
+				continue
 			}
 			logrus.Infof("盲猜这里报错了")
 			issuesInterface := gojsonq.New().FromString(string(body)).Find("issues")
