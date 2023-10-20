@@ -27,7 +27,7 @@ func (t *ManagerReceiveTask) DigestionNormativeInspectionTask() error {
 			return
 		}
 		db := mysql.GetDB()
-		db.Debug().Where("component_id = ?", ni.ComponentID).Delete(&db_model.ComponentReport{})
+		db.Debug().Where("component_id = ? and type = 'normative'", ni.ComponentID).Delete(&db_model.ComponentReport{})
 		var wg sync.WaitGroup
 		for _, task := range normativeInspectionTaskList {
 			wg.Add(1)
