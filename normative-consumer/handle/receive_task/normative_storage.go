@@ -16,11 +16,22 @@ type StorageNormative struct {
 }
 
 func (s StorageNormative) Check(ni model.NormativeInspectionModel) {
-	if !strings.HasPrefix(ni.ExtendMethod, "state_") {
-		return
-	}
 	var volumes []rainbond_model.TenantServiceVolume
 	s.DB.Where("volume_type <> ?", "config-file").Find(&volumes, "service_id=?", ni.ComponentID)
+	if len(volumes) >= 0 {
+		records := db_model.ComponentReport{
+			CreateTime:  time.Now(),
+			Level:       1,
+			Message:     "组件挂载了存储，发布后安装存储数据不会携带，可能会影响组件正常使用",
+			ComponentID: ni.ComponentID,
+			PrimaryLink: "",
+			Type:        "normative",
+		}
+		err := s.DB.Debug().Create(&records).Error
+		if err != nil {
+			logrus.Errorf("create service normative voluem record failure: %v", err)
+		}
+	}
 	if len(volumes) == 0 && strings.HasPrefix(ni.ExtendMethod, "state_") {
 		records := db_model.ComponentReport{
 			CreateTime:  time.Now(),

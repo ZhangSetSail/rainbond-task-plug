@@ -44,4 +44,6 @@ func (t *ManagerReceiveTask) DigestionNormativeInspectionTask() error {
 func addNormativeInspectionTask() {
 	normativeInspectionTaskList = append(normativeInspectionTaskList, NewStorageNormative())
 	normativeInspectionTaskList = append(normativeInspectionTaskList, NewENVNormative())
+	normativeInspectionTaskList = append(normativeInspectionTaskList, NewAttributesNormative())
+	normativeInspectionTaskList = append(normativeInspectionTaskList, NewProbeNormative())
 }
