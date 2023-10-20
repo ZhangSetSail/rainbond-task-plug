@@ -107,7 +107,7 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			p += 1
 		}
 		var componentReportList []*db_model.ComponentReport
-		t.db.Debug().Where("component_id = ?", cdm.ProjectName).Delete(&db_model.ComponentReport{})
+		t.db.Debug().Where("component_id = ? and type = 'code'", cdm.ProjectName).Delete(&db_model.ComponentReport{})
 		for _, code := range codeIssuesList {
 			url := fmt.Sprintf("/project/issues?resolved=false&open=%v&id=%v", code.Key, code.Project)
 			level := 1
