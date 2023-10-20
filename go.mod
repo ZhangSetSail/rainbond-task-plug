@@ -17,7 +17,10 @@ require (
 	k8s.io/client-go v0.28.0
 )
 
-require github.com/jinzhu/now v1.1.5 // indirect
+require (
+	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/moby/spdystream v0.2.0 // indirect
+)
 
 require (
 	github.com/ajg/form v1.5.1 // indirect

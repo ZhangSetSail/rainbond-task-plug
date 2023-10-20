@@ -46,4 +46,5 @@ func addNormativeInspectionTask() {
 	normativeInspectionTaskList = append(normativeInspectionTaskList, NewENVNormative())
 	normativeInspectionTaskList = append(normativeInspectionTaskList, NewAttributesNormative())
 	normativeInspectionTaskList = append(normativeInspectionTaskList, NewProbeNormative())
+	normativeInspectionTaskList = append(normativeInspectionTaskList, NewProcessNormative())
 }
