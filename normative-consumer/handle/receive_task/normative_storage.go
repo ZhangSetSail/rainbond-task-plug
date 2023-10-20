@@ -19,6 +19,7 @@ func (s StorageNormative) Check(ni model.NormativeInspectionModel) {
 	var volumes []rainbond_model.TenantServiceVolume
 	s.DB.Where("volume_type <> ?", "config-file").Find(&volumes, "service_id=?", ni.ComponentID)
 	if len(volumes) >= 0 {
+		logrus.Infof("volumes: %v", volumes)
 		records := db_model.ComponentReport{
 			CreateTime:  time.Now(),
 			Level:       1,
