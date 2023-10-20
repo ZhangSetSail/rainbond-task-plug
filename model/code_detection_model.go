@@ -15,8 +15,9 @@ type NormativeInspectionModel struct {
 }
 
 type CodeIssues struct {
-	Key      string `json:"key"`
-	Project  string `json:"project"`
-	Severity string `json:"severity"`
-	Message  string `json:"message"`
+	Key       string `json:"key"`
+	Project   string `json:"project"`
+	Severity  string `json:"severity"`
+	Message   string `json:"message"`
+	Component string `json:"component"`
 }

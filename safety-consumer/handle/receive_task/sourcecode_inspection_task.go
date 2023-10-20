@@ -117,7 +117,7 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			componentReportList = append(componentReportList, &db_model.ComponentReport{
 				PrimaryLink: url,
 				Level:       level,
-				Message:     code.Message,
+				Message:     code.Message + "文件名称：" + code.Component,
 				ComponentID: code.Project,
 				CreateTime:  time.Now(),
 				Type:        "code",
