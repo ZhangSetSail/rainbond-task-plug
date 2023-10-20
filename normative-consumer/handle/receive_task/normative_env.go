@@ -38,7 +38,7 @@ func (s ENVNormative) Check(ni model.NormativeInspectionModel) {
 				})
 			}
 		}
-		err := s.DB.Debug().Create(&envs).Error
+		err := s.DB.Debug().Create(&componentReportList).Error
 		if err != nil {
 			logrus.Errorf("create service normative env record failure: %v", err)
 		}

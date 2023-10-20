@@ -46,7 +46,7 @@ func (s AttributesNormative) Check(ni model.NormativeInspectionModel) {
 			}
 
 		}
-		err := s.DB.Debug().Create(&attributes).Error
+		err := s.DB.Debug().Create(&componentReportList).Error
 		if err != nil {
 			logrus.Errorf("create service normative attributes record failure: %v", err)
 		}
