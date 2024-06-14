@@ -1,6 +1,5 @@
 package config
 
-import "C"
 import (
 	"github.com/alecthomas/kingpin/v2"
 	"github.com/goodrain/rainbond-task-plug/pkg"
