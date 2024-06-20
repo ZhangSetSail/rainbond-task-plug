@@ -6,11 +6,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (m *DispatchTasksAction) CreateSourceCodeInspectionTask(projectName, url string) error {
+func (m *DispatchTasksAction) CreateSourceCodeInspectionTask(projectName, url, branch, username, password string) error {
 	logrus.Infof("task: source code inspection")
 	cdm := model.CodeInspectionModel{
 		ProjectName:   projectName,
 		RepositoryURL: url,
+		Branch:        branch,
+		User:          username,
+		Password:      password,
 	}
 	cdmJsonByte, err := json.Marshal(cdm)
 	if err != nil {

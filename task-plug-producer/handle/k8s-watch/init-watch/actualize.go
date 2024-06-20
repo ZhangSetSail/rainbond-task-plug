@@ -86,7 +86,10 @@ func (mw *managerWatch) OnAdd(obj interface{}, isInInitialList bool) {
 				logrus.Infof("begin create code inspection task")
 				projectName := pod.Labels["service"]
 				url := pod.Annotations["repository_url"]
-				err := handle.GetDispatchTasksHandle().CreateSourceCodeInspectionTask(projectName, url)
+				branch := pod.Annotations["repository_branch"]
+				username := pod.Annotations["repository_username"]
+				password := pod.Annotations["repository_password"]
+				err := handle.GetDispatchTasksHandle().CreateSourceCodeInspectionTask(projectName, url, branch, username, password)
 				if err != nil {
 					logrus.Errorf("create source code inspection task failure: %v", err)
 				}
