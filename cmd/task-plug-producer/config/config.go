@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/alecthomas/kingpin/v2"
-	"github.com/goodrain/rainbond-task-plug/pkg"
+	"github.com/goodrain/rainbond-task-plug/pkg/config"
 )
 
 var p *ProducerServer
@@ -13,7 +13,7 @@ func init() {
 			NatsHost: "127.0.0.1",
 			NatsPort: "4222",
 			Port:     "10010",
-			DB: &pkg.DBConfig{
+			DB: &config.DBConfig{
 				DBName:       "taskPlug",
 				DBUser:       "root",
 				DBPass:       "password",
@@ -36,7 +36,7 @@ type Config struct {
 	NatsHost string
 	NatsPort string
 	Port     string
-	DB       *pkg.DBConfig
+	DB       *config.DBConfig
 }
 
 func Parse() {
@@ -45,7 +45,7 @@ func Parse() {
 	kingpin.Flag("nats-port", "nats port:4222").Default(p.NatsPort).Envar("NATS_PORT").StringVar(&p.NatsPort)
 	kingpin.Flag("port", "server port:10010").Default(p.NatsPort).Envar("PORT").StringVar(&p.Port)
 
-	pkg.ParseDBFlag(p.DB)
+	config.ParseDBFlag(p.DB)
 
 	kingpin.CommandLine.GetFlag("help").Short('h')
 	kingpin.Parse()

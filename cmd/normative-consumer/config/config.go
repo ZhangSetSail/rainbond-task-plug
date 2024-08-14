@@ -3,7 +3,7 @@ package config
 import "C"
 import (
 	"github.com/alecthomas/kingpin/v2"
-	"github.com/goodrain/rainbond-task-plug/pkg"
+	"github.com/goodrain/rainbond-task-plug/pkg/config"
 )
 
 var s *NormativeServer
@@ -14,7 +14,7 @@ func init() {
 			NatsHost: "127.0.0.1",
 			NatsPort: "4222",
 			Port:     "10010",
-			DB: &pkg.DBConfig{
+			DB: &config.DBConfig{
 				DBName:       "taskPlug",
 				DBUser:       "root",
 				DBPass:       "password",
@@ -37,7 +37,7 @@ type Config struct {
 	NatsHost string
 	NatsPort string
 	Port     string
-	DB       *pkg.DBConfig
+	DB       *config.DBConfig
 }
 
 func Parse() {
@@ -45,7 +45,7 @@ func Parse() {
 	kingpin.Flag("nats-host", "nats host:127.0.0.1").Default(s.NatsHost).Envar("NATS_HOST").StringVar(&s.NatsHost)
 	kingpin.Flag("nats-port", "nats port:4222").Default(s.NatsPort).Envar("NATS_PORT").StringVar(&s.NatsPort)
 	kingpin.Flag("port", "server port:10010").Default(s.NatsPort).Envar("PORT").StringVar(&s.Port)
-	pkg.ParseDBFlag(s.DB)
+	config.ParseDBFlag(s.DB)
 	kingpin.CommandLine.GetFlag("help").Short('h')
 	kingpin.Parse()
 }

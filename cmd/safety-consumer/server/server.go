@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/goodrain/rainbond-task-plug/cmd/safety-consumer/config"
 	"github.com/goodrain/rainbond-task-plug/db/mysql"
+	"github.com/goodrain/rainbond-task-plug/es/es"
 	"github.com/goodrain/rainbond-task-plug/safety-consumer/api_router"
 	"github.com/goodrain/rainbond-task-plug/safety-consumer/handle"
 	nats "github.com/nats-io/nats.go"
@@ -22,6 +23,7 @@ func Run() error {
 	if err != nil {
 		return err
 	}
+	es.InitES(c.ES)
 	handle.InitHandle(ctx, nc, c.Config)
 	err = handle.GetManagerReceiveTasks().DigestionSourceCodeInspectionTask()
 	if err != nil {

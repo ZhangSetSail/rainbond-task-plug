@@ -107,7 +107,11 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			p += 1
 		}
 		var componentReportList []*db_model.ComponentReport
-		t.db.Debug().Where("component_id = ? and type = 'code'", cdm.ProjectName).Delete(&db_model.ComponentReport{})
+		err = t.esCli.DeleteComponentReports(cdm.ProjectName, "code")
+		if err != nil {
+			logrus.Errorf("failed to delete old component reports: %v", err)
+			return
+		}
 		for _, code := range codeIssuesList {
 			url := fmt.Sprintf("/project/issues?resolved=false&open=%v&id=%v", code.Key, code.Project)
 			level := 1
@@ -123,10 +127,12 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 				Type:        "code",
 			})
 		}
-		err = t.db.Debug().Create(&componentReportList).Error
+
+		err = t.esCli.CreateComponentReports(componentReportList)
 		if err != nil {
-			logrus.Errorf("create service normative record failure: %v", err)
+			logrus.Errorf("failed to create component reports: %v", err)
 		}
+
 		return
 	})
 	return err

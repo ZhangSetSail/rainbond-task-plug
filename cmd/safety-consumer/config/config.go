@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/alecthomas/kingpin/v2"
-	"github.com/goodrain/rainbond-task-plug/pkg"
+	"github.com/goodrain/rainbond-task-plug/pkg/config"
 )
 
 var c *SafetyConsumerServer
@@ -16,7 +16,13 @@ func init() {
 			SonarToken:      "",
 			SonarHost:       "127.0.0.1",
 			SonarPort:       "9000",
-			DB: &pkg.DBConfig{
+			ES: &config.ESConfig{
+				EsURL:      "",
+				EsIndex:    "appstore_component_report",
+				EsUsername: "",
+				EsPassword: "",
+			},
+			DB: &config.DBConfig{
 				DBName:       "taskPlug",
 				DBUser:       "root",
 				DBPass:       "password",
@@ -37,7 +43,8 @@ type Config struct {
 	SonarToken      string
 	SonarHost       string
 	SonarPort       string
-	DB              *pkg.DBConfig
+	ES              *config.ESConfig
+	DB              *config.DBConfig
 }
 
 // SafetyConsumerServer  consumer server
@@ -54,7 +61,8 @@ func Parse() {
 	kingpin.Flag("sonar-token", "sonar token").Default(c.SonarToken).Envar("SONAR_TOKEN").StringVar(&c.SonarToken)
 	kingpin.Flag("sonar-host", "sonar host").Default(c.SonarHost).Envar("SONAR_HOST").StringVar(&c.SonarHost)
 	kingpin.Flag("sonar-port", "sonar port").Default(c.SonarPort).Envar("SONAR_PORT").StringVar(&c.SonarPort)
-	pkg.ParseDBFlag(c.DB)
+	config.ParseESFlag(c.ES)
+	config.ParseDBFlag(c.DB)
 	kingpin.CommandLine.GetFlag("help").Short('h')
 
 	kingpin.Parse()
