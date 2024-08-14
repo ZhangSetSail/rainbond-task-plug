@@ -2,6 +2,7 @@ package es
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	db_model "github.com/goodrain/rainbond-task-plug/db/model"
@@ -20,12 +21,15 @@ type ComponentReportRepo struct {
 }
 
 func InitES(esConfig *config.ESConfig) {
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
 	esc = &ComponentReportRepo{
 		EsURL:      esConfig.EsURL,
 		EsIndex:    esConfig.EsIndex,
 		EsUsername: esConfig.EsUsername,
 		EsPassword: esConfig.EsPassword,
-		Client:     &http.Client{},
+		Client:     &http.Client{Transport: tr},
 	}
 }
 
