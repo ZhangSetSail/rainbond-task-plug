@@ -7,6 +7,8 @@ import (
 	"fmt"
 	db_model "github.com/goodrain/rainbond-task-plug/db/model"
 	"github.com/goodrain/rainbond-task-plug/pkg/config"
+	"github.com/sirupsen/logrus"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -118,6 +120,8 @@ func (repo *ComponentReportRepo) CreateComponentReports(reports []*db_model.Comp
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("failed to create component reports, status code: %d", resp.StatusCode)
 	}
+	respBody, _ := ioutil.ReadAll(resp.Body)
+	logrus.Infof("Bulk API response: %s", string(respBody))
 
 	return nil
 }

@@ -127,7 +127,7 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 				Type:        "code",
 			})
 		}
-
+		logrus.Infof("----------------create len %v", len(codeIssuesList))
 		err = t.esCli.CreateComponentReports(componentReportList)
 		if err != nil {
 			logrus.Errorf("failed to create component reports: %v", err)
