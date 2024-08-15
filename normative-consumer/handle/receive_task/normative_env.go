@@ -29,7 +29,7 @@ func (s ENVNormative) Check(ni model.NormativeInspectionModel) {
 			}
 			if message != "" {
 				componentReportList = append(componentReportList, &db_model.ComponentReport{
-					CreateTime:  time.Now(),
+					CreateTime:  time.Now().Format("2006-01-02 15:04:05"),
 					Level:       1,
 					Message:     message,
 					ComponentID: ni.ComponentID,

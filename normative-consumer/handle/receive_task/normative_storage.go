@@ -21,7 +21,7 @@ func (s StorageNormative) Check(ni model.NormativeInspectionModel) {
 	if len(volumes) > 0 {
 		logrus.Infof("volumes: %v", volumes)
 		records := db_model.ComponentReport{
-			CreateTime:  time.Now(),
+			CreateTime:  time.Now().Format("2006-01-02 15:04:05"),
 			Level:       1,
 			Message:     "组件挂载了存储，发布后安装存储数据不会携带，可能会影响组件正常使用",
 			ComponentID: ni.ComponentID,
@@ -35,7 +35,7 @@ func (s StorageNormative) Check(ni model.NormativeInspectionModel) {
 	}
 	if len(volumes) == 0 && strings.HasPrefix(ni.ExtendMethod, "state_") {
 		records := db_model.ComponentReport{
-			CreateTime:  time.Now(),
+			CreateTime:  time.Now().Format("2006-01-02 15:04:05"),
 			Level:       1,
 			Message:     "有状态组件没有挂载存储",
 			ComponentID: ni.ComponentID,

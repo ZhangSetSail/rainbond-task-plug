@@ -123,7 +123,7 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 				Level:       level,
 				Message:     code.Message + "文件名称：" + code.Component,
 				ComponentID: code.Project,
-				CreateTime:  time.Now(),
+				CreateTime:  time.Now().Format("2006-01-02 15:04:05"),
 				Type:        "code",
 			})
 		}

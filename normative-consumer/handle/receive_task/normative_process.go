@@ -81,7 +81,7 @@ func (s ProcessNormative) Check(ni model.NormativeInspectionModel) {
 	}
 	if num-2 != 1 {
 		probeReport := db_model.ComponentReport{
-			CreateTime:  time.Now(),
+			CreateTime:  time.Now().Format("2006-01-02 15:04:05"),
 			Level:       0,
 			Message:     "组件主容器进程数不为 1",
 			ComponentID: ni.ComponentID,

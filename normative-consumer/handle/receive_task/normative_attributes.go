@@ -36,7 +36,7 @@ func (s AttributesNormative) Check(ni model.NormativeInspectionModel) {
 			}
 			if message != "" {
 				componentReportList = append(componentReportList, &db_model.ComponentReport{
-					CreateTime:  time.Now(),
+					CreateTime:  time.Now().Format("2006-01-02 15:04:05"),
 					Level:       1,
 					Message:     fmt.Sprintf("组件使用了 %s 高级属性，可能会影响组件的发布后的正常安装", message),
 					ComponentID: ni.ComponentID,

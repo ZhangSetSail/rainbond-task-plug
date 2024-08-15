@@ -19,7 +19,7 @@ func (s ProbeNormative) Check(ni model.NormativeInspectionModel) {
 	err := s.DB.First(&probe, "service_id=?", ni.ComponentID).Error
 	if err != nil && err == gorm.ErrRecordNotFound {
 		probeReport := db_model.ComponentReport{
-			CreateTime:  time.Now(),
+			CreateTime:  time.Now().Format("2006-01-02 15:04:05"),
 			Level:       1,
 			Message:     "组件未设置健康检测",
 			ComponentID: ni.ComponentID,
