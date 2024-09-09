@@ -2,7 +2,6 @@ package server
 
 import (
 	"github.com/goodrain/rainbond-task-plug/cmd/task-plug-producer/config"
-	"github.com/goodrain/rainbond-task-plug/db/mysql"
 	"github.com/goodrain/rainbond-task-plug/pkg"
 	"github.com/goodrain/rainbond-task-plug/task-plug-producer/controller"
 	"github.com/goodrain/rainbond-task-plug/task-plug-producer/handle"
@@ -43,10 +42,10 @@ func initCli() error {
 		return err
 	}
 	//初始化数据库
-	err = mysql.InitDB(p.DB)
-	if err != nil {
-		return err
-	}
+	//err = mysql.InitDB(p.DB)
+	//if err != nil {
+	//	return err
+	//}
 	//初始化router
 	router.InitRouterCli()
 	//初始化处理程序,必须放在最后
