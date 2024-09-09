@@ -2,7 +2,6 @@ package server
 
 import (
 	"github.com/goodrain/rainbond-task-plug/cmd/normative-consumer/config"
-	"github.com/goodrain/rainbond-task-plug/db/mysql"
 	"github.com/goodrain/rainbond-task-plug/normative-consumer/handle"
 	"github.com/goodrain/rainbond-task-plug/normative-consumer/router"
 	"github.com/goodrain/rainbond-task-plug/pkg"
@@ -42,10 +41,10 @@ func initCli() error {
 	}
 	router.InitRouterCli()
 	//初始化数据库
-	err = mysql.InitDB(s.DB)
-	if err != nil {
-		return err
-	}
+	//err = mysql.InitDB(s.DB)
+	//if err != nil {
+	//	return err
+	//}
 	//初始化 ctx
 	pkg.InitCTX(3)
 	//初始化处理程序，必须放在最后
