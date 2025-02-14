@@ -35,8 +35,10 @@ func initCli() error {
 	}
 	// 初始化消息队列
 	natsAddr := s.NatsHost + ":" + s.NatsPort
+	logrus.Infof("-----------------------%v", natsAddr)
 	err = pkg.InitNatsCli(natsAddr)
 	if err != nil {
+		logrus.Errorf("ererrrrrrrr:%v", err)
 		return err
 	}
 	router.InitRouterCli()
