@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"github.com/goodrain/rainbond-task-plug/cmd/safety-consumer/config"
+	"github.com/goodrain/rainbond-task-plug/db/mysql"
 	"github.com/goodrain/rainbond-task-plug/es/es"
 	"github.com/goodrain/rainbond-task-plug/safety-consumer/api_router"
 	"github.com/goodrain/rainbond-task-plug/safety-consumer/handle"
@@ -18,7 +19,7 @@ func Run() error {
 	if err != nil {
 		return err
 	}
-	//err = mysql.InitDB(c.DB)
+	err = mysql.InitDB(c.DB)
 	//if err != nil {
 	//	return err
 	//}
