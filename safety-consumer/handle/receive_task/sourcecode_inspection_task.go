@@ -38,7 +38,10 @@ func (t *ManagerReceiveTask) DigestionSourceCodeInspectionTask() error {
 			t.config.SonarToken = os.Getenv("SONAR_TOKEN")
 		}
 		sonarToken := fmt.Sprintf("SONAR_TOKEN=%v", t.config.SonarToken)
-		sonarScannerOpts := fmt.Sprintf("SONAR_SCANNER_OPTS=-Dsonar.projectKey=%v -Dsonar.exclusions=**/*.java", cdm.ProjectName)
+		sonarScannerOpts := fmt.Sprintf(
+			"SONAR_SCANNER_OPTS=-Dsonar.projectKey=%s -Dsonar.sourceEncoding=UTF-8 -Dsonar.exclusions=**/static/**/invalid-*.json",
+			cdm.ProjectName,
+		)
 		sonarAddr := t.config.SonarHost + ":" + t.config.SonarPort
 		SonarHostURL := fmt.Sprintf("SONAR_HOST_URL=http://%v", sonarAddr)
 		command := "/usr/bin/entrypoint.sh"
